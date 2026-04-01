@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="pageTitle">Prema Solar Energy</title>
+    <meta name="description" id="metaDesc" content="Premium Solar Installation Services">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #FFCC00; /* Solar Yellow */
+            --dark: #0a0a0a; /* Deep Black */
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        
+        body { background: var(--dark); color: var(--text-main); overflow-x: hidden; }
+        h1, h2, h3, .brand-font { font-family: 'Orbitron', sans-serif; }
+        
+        /* Glassmorphism Classes */
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+        }
+
+        /* Top Offer Slider */
+        .offer-bar { background: var(--primary); color: #000; padding: 5px; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; position: relative; }
+        .offer-track { display: inline-block; animation: scrollLeft 15s linear infinite; }
+        @keyframes scrollLeft { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* Navbar */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 100; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; color: var(--primary); font-weight: bold; }
+        .logo img { height: 40px; border-radius: 5px; }
+        .nav-actions button { background: none; border: none; color: white; font-size: 1.5rem; margin-left: 15px; cursor: pointer; }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 80px 20px; background: radial-gradient(circle, rgba(255,204,0,0.1) 0%, rgba(10,10,10,1) 80%); }
+        .hero h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; text-transform: uppercase; }
+        .hero p { font-size: 1rem; color: var(--text-muted); margin-bottom: 25px; }
+        .btn { background: var(--primary); color: #000; padding: 12px 25px; border-radius: 30px; font-weight: bold; text-decoration: none; display: inline-block; border: none; cursor: pointer; transition: 0.3s; }
+        .btn:hover { box-shadow: 0 0 15px var(--primary); transform: scale(1.05); }
+        .btn:disabled { background: #555; color: #888; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        /* Sections */
+        section { padding: 40px 20px; }
+        .section-title { text-align: center; font-size: 2rem; color: var(--primary); margin-bottom: 30px; }
+        
+        /* Grid Layouts */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
+        /* Cards */
+        .card { padding: 20px; text-align: center; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .card h3 { margin-bottom: 10px; font-size: 1.2rem; }
+        .card img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+
+        /* Forms */
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; outline: none; }
+        input:focus, textarea:focus { border-color: var(--primary); }
+        
+        /* Calculator */
+        #calcResult { display: none; margin-top: 20px; padding: 15px; border-left: 4px solid var(--primary); }
+        
+        /* Floating Buttons */
+        .float-btn { position: fixed; bottom: 20px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-decoration: none; }
+        .whatsapp { background: #25D366; right: 20px; }
+        .call { background: var(--primary); right: 80px; color: black; }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: #111; width: 100%; max-width: 400px; padding: 20px; border-radius: 15px; position: relative; border: 1px solid var(--primary); max-height: 90vh; overflow-y: auto;}
+        .close-modal { position: absolute; top: 15px; right: 20px; color: white; font-size: 24px; cursor: pointer; }
+
+        /* Booking History Status */
+        .booking-item { background: rgba(255,255,255,0.1); padding: 10px; margin-bottom: 10px; border-radius: 8px;}
+        .status { font-size: 12px; padding: 3px 8px; border-radius: 10px; font-weight: bold; background: var(--primary); color: #000; }
+
+        /* Success Animation Screen */
+        #successScreen { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; flex-direction: column; text-align: center;}
+        .success-icon { font-size: 80px; color: #25D366; margin-bottom: 20px; animation: popIn 0.5s ease-out forwards; }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
+    </style>
+</head>
+<body>
+
+    <!-- Audio for Success -->
+    <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/212/212.wav" preload="auto"></audio>
+
+    <!-- Success Screen overlay -->
+    <div id="successScreen">
+        <i class="fa-solid fa-circle-check success-icon"></i>
+        <h2 style="color:white;" class="brand-font">Booking Successful!</h2>
+        <p style="color:#aaa; margin-top:10px;">Our team will contact you soon.</p>
+    </div>
+
+    <!-- Offer Slider -->
+    <div class="offer-bar" id="offerBar" style="display: none;">
+        <span class="offer-track" id="offerText"></span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass">
+        <div class="logo">
+            <img id="navLogo" src="https://via.placeholder.com/100?text=Logo" alt="Logo">
+            <span id="navTitle" class="brand-font">PREMA SOLAR</span>
+        </div>
+        <div class="nav-actions">
+            <button onclick="document.getElementById('bookingModal').style.display='flex'"><i class="fa-solid fa-bolt"></i></button>
+            <button onclick="checkAuthAndProfile()"><i class="fa-solid fa-user-circle"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 id="heroTitle">Power Your Future</h1>
+        <p id="heroTagline">Premium Solar Installation for Homes & Businesses.</p>
+        <button class="btn" onclick="document.getElementById('bookingModal').style.display='flex'">Book Installation</button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="glass card" id="aboutText">
+            Loading...
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="grid-3" id="servicesGrid"></div>
+    </section>
+
+    <!-- Solar Calculator -->
+    <section id="calculator">
+        <h2 class="section-title">Solar Calculator</h2>
+        <div class="glass card">
+            <p>Enter your average monthly electricity bill (₹)</p>
+            <input type="number" id="billAmount" placeholder="e.g. 3000">
+            <button class="btn" onclick="calculateSolar()">Calculate</button>
+            <div id="calcResult" class="glass">
+                <p>Required System: <strong id="resKW" style="color:var(--primary)"></strong></p>
+                <p>Est. Cost: <strong id="resCost"></strong></p>
+                <p>Yearly Savings: <strong id="resSavings" style="color:#25D366"></strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">Our Work</h2>
+        <div class="grid-3" id="galleryGrid"></div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <h2 class="section-title">Customer Reviews</h2>
+        <div class="grid-3" id="reviewsGrid"></div>
+    </section>
+
+    <!-- Downloads & FAQ -->
+    <section id="resources">
+        <h2 class="section-title">Downloads & FAQ</h2>
+        <div class="grid-3">
+            <div class="glass card" id="downloadsDiv"><h3>Downloads</h3></div>
+            <div class="glass card" id="faqDiv"><h3>FAQ</h3></div>
+        </div>
+    </section>
+
+    <!-- Enquiry Form -->
+    <section id="enquiry">
+        <h2 class="section-title">Quick Enquiry</h2>
+        <div class="glass card">
+            <input type="text" id="eqName" placeholder="Your Name">
+            <input type="tel" id="eqPhone" placeholder="Phone Number">
+            <textarea id="eqMsg" placeholder="Message"></textarea>
+            <button class="btn" id="eqBtn" onclick="submitEnquiry()">Send Message</button>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer style="padding: 40px 20px; text-align: center; border-top: 1px solid var(--glass-border);">
+        <h3 class="brand-font" style="color: var(--primary);">Contact Us</h3>
+        <p id="ownerDetails" style="font-weight:bold; font-size:1.1rem; color:white; margin:10px 0;"></p>
+        <p id="contactDetails"></p>
+        <div id="mapEmbed" style="margin-top:20px; border-radius: 10px; overflow:hidden;"></div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <a href="#" id="waBtn" class="float-btn whatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <a href="#" id="callBtn" class="float-btn call"><i class="fa-solid fa-phone"></i></a>
+
+    <!-- MODALS -->
+    
+    <!-- Auth Modal (With Google Login) -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2 id="authTitle" style="color:var(--primary); margin-bottom: 20px;">Login</h2>
+            
+            <input type="email" id="authUser" placeholder="Email">
+            <input type="password" id="authPass" placeholder="Password">
+            <button class="btn" style="width:100%" id="authBtn" onclick="handleAuth()">Submit</button>
+
+            <!-- Google Login Button -->
+            <div style="text-align:center; margin: 15px 0; color: #aaa; font-size: 14px;">OR</div>
+            <button class="btn" id="googleBtn" style="background: white; color: black; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" onclick="googleLogin()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" style="width: 20px;" alt="G">
+                Login with Google
+            </button>
+
+            <p style="margin-top:15px; text-align:center; font-size:12px; cursor:pointer;" onclick="toggleAuthMode()" id="authToggleText">New User? Sign Up here</p>
+            <p style="margin-top:10px; text-align:center; font-size:12px; color:var(--primary); cursor:pointer;" onclick="resetPassword()">Forgot Password?</p>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2 style="color:var(--primary); margin-bottom: 20px;">Book Installation</h2>
+            <input type="text" id="bkName" placeholder="Full Name (Required)">
+            <input type="tel" id="bkPhone" placeholder="Phone (10 Digits Required)">
+            <input type="text" id="bkAddress" placeholder="Full Address (Required)">
+            <input type="text" id="bkCity" placeholder="City (Required)">
+            <input type="number" id="bkBill" placeholder="Monthly Bill (₹)">
+            <input type="text" id="bkSize" placeholder="Required Size (e.g. 5KW)">
+            <button class="btn" style="width:100%" id="bkBtn" onclick="submitBooking()">Submit Booking</button>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2 style="color:var(--primary); margin-bottom: 20px;">My Profile</h2>
+            <p id="profileEmail" style="margin-bottom: 20px;"></p>
+            <h3>My Bookings</h3>
+            <div id="myBookingsList" style="margin-top:10px; max-height:200px; overflow-y:auto;"></div>
+            <button class="btn" style="width:100%; margin-top:20px; background:red; color:white;" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPfmu2C9pmQbvMEzJxMkZET0gZiaVToa4",
+            authDomain: "prema-solar.firebaseapp.com",
+            databaseURL: "https://prema-solar-default-rtdb.firebaseio.com",
+            projectId: "prema-solar",
+            storageBucket: "prema-solar.firebasestorage.app",
+            messagingSenderId: "1018792387401",
+            appId: "1:1018792387401:web:394a1ccc748874f0ddb098"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+        const googleProvider = new firebase.auth.GoogleAuthProvider(); // Added Google Auth Provider
+
+        let currentUser = null;
+        let isLoginMode = true;
+
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            if(user && document.getElementById('authModal').style.display === 'flex') {
+                document.getElementById('authModal').style.display = 'none';
+                checkAuthAndProfile();
+            }
+        });
+
+        // 1. Fetch Settings + Owner Details + Support WhatsApp
+        db.ref('website_settings').on('value', snap => {
+            const data = snap.val();
+            if(!data) return;
+            document.getElementById('navTitle').innerText = data.companyName || "PREMA SOLAR";
+            document.getElementById('heroTitle').innerText = data.companyName || "PREMA SOLAR";
+            document.getElementById('pageTitle').innerText = data.seoTitle || "Prema Solar Energy";
+            document.getElementById('metaDesc').setAttribute('content', data.seoDesc || "");
+            if(data.logoUrl) document.getElementById('navLogo').src = data.logoUrl;
+            if(data.tagline) document.getElementById('heroTagline').innerText = data.tagline;
+            if(data.aboutText) document.getElementById('aboutText').innerHTML = `<p>${data.aboutText}</p>`;
+            
+            // Owner Info
+            if(data.ownerName) document.getElementById('ownerDetails').innerText = "Proprietor: " + data.ownerName;
+
+            let contactNo = data.contactPhone || "";
+            let waNo = data.supportWa || contactNo;
+
+            if(contactNo) {
+                document.getElementById('contactDetails').innerHTML = `📞 ${contactNo} <br> ✉️ ${data.contactEmail} <br> 📍 ${data.address}`;
+                document.getElementById('callBtn').href = `tel:${contactNo}`;
+            }
+            if(waNo) {
+                document.getElementById('waBtn').href = `https://wa.me/${waNo.replace(/\D/g,'')}`;
+            }
+            if(data.mapEmbed) document.getElementById('mapEmbed').innerHTML = data.mapEmbed;
+        });
+
+        // 2. Fetch Offers
+        db.ref('offers').on('value', snap => {
+            let activeOffers = [];
+            snap.forEach(child => { if(child.val().status === 'active') activeOffers.push(child.val().text); });
+            if(activeOffers.length > 0) {
+                document.getElementById('offerBar').style.display = 'block';
+                document.getElementById('offerText').innerText = activeOffers.join("  |  ");
+            } else { document.getElementById('offerBar').style.display = 'none'; }
+        });
+
+        // 3. Fetch Services
+        db.ref('services').on('value', snap => {
+            let html = '';
+            snap.forEach(child => {
+                let s = child.val();
+                html += `<div class="glass card"><img src="${s.image}" alt="Service"><h3>${s.title}</h3><p>${s.desc}</p></div>`;
+            });
+            document.getElementById('servicesGrid').innerHTML = html;
+        });
+
+        // 4. Fetch Gallery
+        db.ref('gallery').on('value', snap => {
+            let html = '';
+            snap.forEach(child => { html += `<div class="glass card"><img src="${child.val().url}" alt="Gallery"></div>`; });
+            document.getElementById('galleryGrid').innerHTML = html;
+        });
+
+        // 5. Fetch Reviews
+        db.ref('reviews').on('value', snap => {
+            let html = '';
+            snap.forEach(child => {
+                let r = child.val();
+                html += `<div class="glass card"><i class="fa-solid fa-quote-left" style="font-size:20px; color:var(--primary)"></i><h3>${r.name}</h3><p style="font-size:14px; margin-top:10px;">"${r.msg}"</p><div style="color:var(--primary); margin-top:10px;">⭐⭐⭐⭐⭐</div></div>`;
+            });
+            document.getElementById('reviewsGrid').innerHTML = html || "<p>No reviews yet.</p>";
+        });
+
+        // 6. Fetch FAQ & Downloads
+        db.ref('faq').on('value', snap => {
+            let html = '<h3>FAQ</h3>';
+            snap.forEach(child => { html += `<details style="margin-bottom:10px;"><summary style="cursor:pointer; color:var(--primary);">${child.val().q}</summary><p style="font-size:12px; margin-top:5px;">${child.val().a}</p></details>`; });
+            document.getElementById('faqDiv').innerHTML = html;
+        });
+        db.ref('downloads').on('value', snap => {
+            let html = '<h3>Downloads</h3>';
+            snap.forEach(child => { html += `<a href="${child.val().url}" target="_blank" style="display:block; color:white; margin:10px 0;"><i class="fa-solid fa-download" style="color:var(--primary)"></i> ${child.val().name}</a>`; });
+            document.getElementById('downloadsDiv').innerHTML = html;
+        });
+
+        // Auth Logic + Spinner + Forgot Password + Google Login
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById('authTitle').innerText = isLoginMode ? "Login" : "Sign Up";
+            document.getElementById('authToggleText').innerText = isLoginMode ? "New User? Sign Up here" : "Already have account? Login here";
+        }
+
+        // Email & Password Auth
+        function handleAuth() {
+            let e = document.getElementById('authUser').value;
+            let p = document.getElementById('authPass').value;
+            if(!e || !p) return alert("Fill all fields");
+
+            let btn = document.getElementById('authBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            if(isLoginMode) {
+                auth.signInWithEmailAndPassword(e, p).catch(err => { alert(err.message); resetBtn(btn, 'Submit'); });
+            } else {
+                auth.createUserWithEmailAndPassword(e, p).then(cred => {
+                    db.ref('users/'+cred.user.uid).set({ email: e, createdAt: Date.now() });
+                }).catch(err => { alert(err.message); resetBtn(btn, 'Submit'); });
+            }
+        }
+
+        // Google Login Logic
+        function googleLogin() {
+            let btn = document.getElementById('googleBtn');
+            let originalContent = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Redirecting...';
+            btn.disabled = true;
+
+            auth.signInWithPopup(googleProvider).then(result => {
+                let user = result.user;
+                
+                // Save user to Realtime DB if they don't exist yet
+                db.ref('users/' + user.uid).once('value').then(snap => {
+                    if (!snap.exists()) {
+                        db.ref('users/' + user.uid).set({ email: user.email, name: user.displayName, createdAt: Date.now() });
+                    }
+                });
+                
+                document.getElementById('authModal').style.display = 'none';
+                resetBtn(btn, originalContent);
+                
+            }).catch(err => {
+                alert("Google Login Failed: " + err.message);
+                resetBtn(btn, originalContent);
+            });
+        }
+
+        function resetPassword() {
+            let email = prompt("Enter your registered email to reset password:");
+            if(email) {
+                auth.sendPasswordResetEmail(email).then(() => alert("Password Reset Link sent to your Email!")).catch(e => alert(e.message));
+            }
+        }
+
+        function resetBtn(btnElement, text) {
+            btnElement.innerHTML = text;
+            btnElement.disabled = false;
+        }
+
+        function checkAuthAndProfile() {
+            if(!currentUser) {
+                document.getElementById('authModal').style.display = 'flex';
+            } else {
+                document.getElementById('profileEmail').innerText = "Logged in as: " + currentUser.email;
+                document.getElementById('profileModal').style.display = 'flex';
+                loadMyBookings();
+            }
+        }
+
+        function logout() { auth.signOut(); document.getElementById('profileModal').style.display='none'; }
+
+        // Calculator Logic
+        function calculateSolar() {
+            let bill = document.getElementById('billAmount').value;
+            if(!bill) return;
+            let kw = (bill / 1200).toFixed(1);
+            let cost = (kw * 60000).toLocaleString('en-IN'); 
+            let savings = (bill * 12).toLocaleString('en-IN');
+            
+            document.getElementById('resKW').innerText = kw + " KW";
+            document.getElementById('resCost').innerText = "₹ " + cost;
+            document.getElementById('resSavings').innerText = "₹ " + savings;
+            document.getElementById('calcResult').style.display = 'block';
+        }
+
+        // Secure Booking Logic
+        function submitBooking() {
+            if(!currentUser) { alert("Please login first to book."); document.getElementById('bookingModal').style.display='none'; document.getElementById('authModal').style.display='flex'; return; }
+            
+            let n = document.getElementById('bkName').value;
+            let p = document.getElementById('bkPhone').value;
+            let a = document.getElementById('bkAddress').value;
+            let c = document.getElementById('bkCity').value;
+
+            if(!n || !p || !a || !c) return alert("Name, Phone, Address and City are required!");
+            if(p.length < 10) return alert("Enter valid 10-digit Phone Number!");
+
+            let btn = document.getElementById('bkBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            let data = {
+                uid: currentUser.uid,
+                name: n,
+                phone: p,
+                address: a,
+                city: c,
+                bill: document.getElementById('bkBill').value || "N/A",
+                size: document.getElementById('bkSize').value || "N/A",
+                status: "Pending",
+                timestamp: Date.now()
+            };
+
+            db.ref('bookings').push(data).then(() => {
+                document.getElementById('bookingModal').style.display='none';
+                resetBtn(btn, 'Submit Booking');
+
+                // Clear Form
+                document.getElementById('bkName').value = ''; document.getElementById('bkPhone').value = '';
+                document.getElementById('bkAddress').value = ''; document.getElementById('bkCity').value = '';
+                document.getElementById('bkBill').value = ''; document.getElementById('bkSize').value = '';
+
+                // Play Sound and Show Popup
+                document.getElementById('successSound').play();
+                let successScr = document.getElementById('successScreen');
+                successScr.style.display = 'flex';
+                setTimeout(() => { successScr.style.display = 'none'; }, 2000);
+            });
+        }
+
+        function submitEnquiry() {
+            let n = document.getElementById('eqName').value;
+            let p = document.getElementById('eqPhone').value;
+            let m = document.getElementById('eqMsg').value;
+            if(!n || !p) return alert("Name and Phone required");
+
+            let btn = document.getElementById('eqBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+
+            db.ref('leads').push({ name: n, phone: p, msg: m, timestamp: Date.now() }).then(() => {
+                alert("Enquiry sent!");
+                document.getElementById('eqName').value = ''; document.getElementById('eqPhone').value = ''; document.getElementById('eqMsg').value = '';
+                resetBtn(btn, 'Send Message');
+            });
+        }
+
+        // Load User Profile Bookings
+        function loadMyBookings() {
+            db.ref('bookings').orderByChild('uid').equalTo(currentUser.uid).on('value', snap => {
+                let html = '';
+                snap.forEach(child => {
+                    let b = child.val();
+                    let date = new Date(b.timestamp).toLocaleDateString();
+                    html += `<div class="booking-item">
+                        <p><strong>${b.size} System</strong> - ${date}</p>
+                        <p>Status: <span class="status">${b.status}</span></p>
+                    </div>`;
+                });
+                document.getElementById('myBookingsList').innerHTML = html || "<p>No bookings yet.</p>";
+            });
+        }
+    </script>
+</body>
+</html>
